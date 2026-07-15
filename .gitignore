@@ -7,3 +7,15 @@
 /.vs/zmk-config/FileContentIndex/56ee7683-e67e-425a-8c1a-5989d68e9d8f.vsidx
 /.vs/zmk-config/v17/.wsuo
 /.vs
+
+# west-managed workspace dirs (not part of this config repo)
+/.west/
+/zmk/
+/zephyr/
+/modules/
+/nrfxlib/
+/optional/
+/bootloader/
+/tools/
+/zmk-dongle-display/
+/zmk-feature-softdevice-subrating/

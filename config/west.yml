@@ -4,8 +4,8 @@ manifest:
       url-base: https://github.com/zmkfirmware
     - name: kmobs
       url-base: https://github.com/kmobs
-    - name: carrefinho
-      url-base: https://github.com/carrefinho
+    - name: englmaxi
+      url-base: https://github.com/englmaxi
   projects:
  #   - name: zmk
  #     remote: zmkfirmware
@@ -20,8 +20,20 @@ manifest:
       repo-path: zmk-softdevice-controller
       revision: main
       import: config/west.yml
-    - name: prospector-zmk-module          
-      remote: carrefinho                         
-      revision: feat/new-status-screens
+    - name: zmk-dongle-display
+      remote: englmaxi
+      # Pinned to commit 9f0f0bf, not v0.3 or main:
+      # - v0.3 predates the LVGL v9 API migration (44b11bb, "add zephyr 4.1
+      #   changes") that this repo's Zephyr v4.1 / newer LVGL needs
+      #   (LV_IMG_CF_* enum removed, lv_canvas_set_px signature changed,
+      #   lv_point_t -> lv_point_precise_t).
+      # - main (2bb333f, "fix: zmk changes") renames zmk_endpoint_get_selected
+      #   -> matches upstream ZMK's endpoint rename (zmkfirmware/zmk#3140),
+      #   which this repo's kmobs ZMK core fork (based on an older ZMK
+      #   checkout) does NOT have -- it still exposes the pre-rename
+      #   zmk_endpoints_selected().
+      # 9f0f0bf sits between the two: has the LVGL v9 fixes, not yet the
+      # endpoint rename.
+      revision: 9f0f0bf
   self:
     path: config

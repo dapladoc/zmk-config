@@ -12,9 +12,17 @@
 #     shield: reviung41
 #
 ---
+# Dongle (item/721, ergosplits.ru) is a XIAO-BLE-based dongle running
+# englmaxi/zmk-dongle-display (SSD1306 128x64 OLED) -- confirmed by
+# matching product photos against that project's demo images and case
+# designs. This is a different display module than carrefinho's Prospector
+# (round color LCD) that this config originally assumed; the shield below
+# was switched from `prospector_adapter` to `dongle_display` accordingly,
+# and the actual OLED devicetree node was added to
+# boards/shields/sweep/sweep_central_dongle.overlay (see that file).
 include:
   - board: xiao_ble
-    shield: sweep_central_dongle prospector_adapter
+    shield: sweep_central_dongle dongle_display
     artifact-name: sweep_central_dongle
 #    snippet: studio-rpc-usb-uart softdevice-controller
     snippet: softdevice-controller
