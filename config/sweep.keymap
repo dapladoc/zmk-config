@@ -5,16 +5,10 @@
 #include <dt-bindings/zmk/bt.h>
 #include <dt-bindings/zmk/keys.h>
 
-// Home row mods macro
-//#define HRML(k1,k2,k3,k4) &kp k1  &kp k2  &kp k3  &kp k4
-//#define HRMR(k1,k2,k3,k4) &kp k1  &kp k2  &kp k3  &ht RALT k4
-
 #define DEFAULT 0
-#define GAMING 1
-#define LEFT_LYR 2
-#define RIGHT_LYR 3
-#define BOTH 4
-#define GAMING_ALT 5
+#define NUM     1
+#define VIM     2
+#define CFG     3
 
 / {
     behaviors {
@@ -40,12 +34,70 @@
         };
     };
 
+    // Unicode entry via the Linux/IBus "Ctrl+Shift+U <hex> Enter" method,
+    // for Russian letters with no good phonetic English-layout equivalent.
+    // Needs an IBus-style unicode input method to be active in the OS to
+    // work -- verify once flashed, this doesn't work in every app/DE.
+    macros {
+        ru_shch: ru_shch {
+            // щ U+0449
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings
+                = <&macro_press &kp LCTRL &kp LSHIFT>
+                , <&macro_tap &kp U>
+                , <&macro_release &kp LCTRL &kp LSHIFT>
+                , <&macro_tap &kp N0 &kp N4 &kp N4 &kp N9>
+                , <&macro_tap &kp ENTER>
+                ;
+        };
+
+        ru_yo: ru_yo {
+            // ё U+0451
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings
+                = <&macro_press &kp LCTRL &kp LSHIFT>
+                , <&macro_tap &kp U>
+                , <&macro_release &kp LCTRL &kp LSHIFT>
+                , <&macro_tap &kp N0 &kp N4 &kp N5 &kp N1>
+                , <&macro_tap &kp ENTER>
+                ;
+        };
+
+        ru_hard_sign: ru_hard_sign {
+            // ъ U+044A
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings
+                = <&macro_press &kp LCTRL &kp LSHIFT>
+                , <&macro_tap &kp U>
+                , <&macro_release &kp LCTRL &kp LSHIFT>
+                , <&macro_tap &kp N0 &kp N4 &kp N4 &kp A>
+                , <&macro_tap &kp ENTER>
+                ;
+        };
+
+        ru_kha: ru_kha {
+            // х U+0445
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings
+                = <&macro_press &kp LCTRL &kp LSHIFT>
+                , <&macro_tap &kp U>
+                , <&macro_release &kp LCTRL &kp LSHIFT>
+                , <&macro_tap &kp N0 &kp N4 &kp N4 &kp N5>
+                , <&macro_tap &kp ENTER>
+                ;
+        };
+    };
+
     conditional_layers {
         compatible = "zmk,conditional-layers";
 
         both_layer {
-            if-layers = <1 2>;
-            then-layer = <3>;
+            if-layers = <NUM VIM>;
+            then-layer = <CFG>;
         };
     };
 
@@ -56,13 +108,13 @@
             timeout-ms = <40>;
             key-positions = <1 2>;
             bindings = <&kp ESC>;
-            layers = <0>;
+            layers = <DEFAULT>;
             require-prior-idle-ms = <250>;
         };
 
         combo_del {
             timeout-ms = <40>;
-            key-positions = <6 7>;
+            key-positions = <8 9>;
             bindings = <&kp DEL>;
             require-prior-idle-ms = <250>;
         };
@@ -77,7 +129,7 @@
             timeout-ms = <30>;
             key-positions = <23 24>;
             bindings = <&kp LGUI>;
-            layers = <0 1 2>;
+            layers = <DEFAULT NUM VIM>;
             require-prior-idle-ms = <500>;
         };
 
@@ -92,7 +144,7 @@
             timeout-ms = <30>;
             key-positions = <20 21>;
             bindings = <&kp LSHIFT>;
-            layers = <0 1 2>;
+            layers = <DEFAULT NUM VIM>;
         };
 
         combo_rshift {
@@ -106,6 +158,40 @@
             key-positions = <20 29>;
             bindings = <&caps_word>;
         };
+
+        // Extra Russian letters, typing layer only. Positions are free
+        // pairs not used by any other combo above.
+        combo_ru_shch {
+            timeout-ms = <40>;
+            key-positions = <6 7>;
+            bindings = <&ru_shch>;
+            layers = <DEFAULT>;
+            require-prior-idle-ms = <250>;
+        };
+
+        combo_ru_yo {
+            timeout-ms = <40>;
+            key-positions = <3 4>;
+            bindings = <&ru_yo>;
+            layers = <DEFAULT>;
+            require-prior-idle-ms = <250>;
+        };
+
+        combo_ru_hard_sign {
+            timeout-ms = <40>;
+            key-positions = <12 13>;
+            bindings = <&ru_hard_sign>;
+            layers = <DEFAULT>;
+            require-prior-idle-ms = <250>;
+        };
+
+        combo_ru_kha {
+            timeout-ms = <40>;
+            key-positions = <14 15>;
+            bindings = <&ru_kha>;
+            layers = <DEFAULT>;
+            require-prior-idle-ms = <250>;
+        };
     };
 
     keymap {
@@ -114,50 +200,40 @@
         default_layer {
             display-name = "Base";
             bindings = <
-&ht LCTRL Q  &kp W  &kp E  &kp R      &kp T      &kp Y  &kp U      &kp I        &kp O    &ht RCTRL P
-&kp A        &kp S  &kp D  &kp F      &kp G      &kp H  &kp J      &kp K        &kp L    &ht LALT SQT
-&kp Z        &kp X  &kp C  &kp V      &kp B      &kp N  &kp M      &kp COMMA    &kp DOT  &ht RSHIFT FSLH
-                           &lt 1 TAB  &kp SPACE         &kp SPACE  &lt 2 ENTER
+&kp Q  &kp W       &kp E         &kp R        &kp T       &kp Y        &kp U        &kp I         &kp O       &kp P
+&kp A  &ht LALT S  &ht LSHIFT D  &ht LCTRL F  &ht LGUI G  &ht RGUI H   &ht RCTRL J  &ht RSHIFT K  &ht RALT L  &kp SQT
+&kp Z  &kp X       &kp C         &kp V        &kp B       &kp N        &kp M        &kp COMMA     &kp DOT     &kp FSLH
+                               &lt NUM TAB  &kp SPACE               &kp BSPC     &lt VIM ENTER
             >;
         };
 
-        left_layer {
-            display-name = "Left";
+        num_layer {
+            display-name = "Numbers";
             bindings = <
 &kp EXCL  &kp AT  &kp HASH  &kp DLLR  &kp PRCNT  &kp CARET  &kp AMPS  &kp ASTRK  &kp LPAR  &kp RPAR
 &kp N1    &kp N2  &kp N3    &kp N4    &kp N5     &kp N6     &kp N7    &kp N8     &kp N9    &kp N0
-&kp F1    &kp F2  &kp F3    &kp F4    &kp F5     &kp F6     &kp F7    &kp F8     &kp F9    &kp QMARK
-                            &trans    &kp ESC               &trans    &trans
+&kp F1    &kp F2  &kp F3    &kp F4    &kp F5     &kp F6     &kp F7    &kp F8     &kp F9    &kp F10
+                            &trans    &kp ENTER             &kp ESC   &trans
             >;
         };
 
-        right_layer {
-            display-name = "Right";
+        vim_layer {
+            display-name = "Vim";
             bindings = <
-&kp TILDE  &kp LT     &kp UP    &kp GT     &kp PLUS   &kp CARET  &kp LPAR  &kp RPAR  &kp COLON  &ht HOME PG_UP
-&kp GRAVE  &kp LEFT   &kp DOWN  &kp RIGHT  &kp MINUS  &kp ASTRK  &kp LBKT  &kp RBKT  &kp SEMI   &ht END PG_DN
-&kp PIPE   &kp EQUAL  &kp LBRC  &kp RBRC   &kp UNDER  &kp EQUAL  &kp LBRC  &kp RBRC  &kp BSLH   &kp PSCRN
-                                &trans     &trans                &trans    &trans
+&trans  &trans  &trans  &trans  &trans     &trans     &trans     &trans   &trans      &trans
+&trans  &trans  &trans  &trans  &kp HOME   &kp LEFT   &kp DOWN   &kp UP   &kp RIGHT   &kp END
+&trans  &trans  &trans  &trans  &trans     &trans     &trans     &trans   &trans      &trans
+                         &trans  &trans                &trans    &trans
             >;
         };
 
         both_layer {
             display-name = "Config";
             bindings = <
-&sys_reset   &trans  &trans  &studio_unlock  &bt BT_SEL 0  &tog 0  &trans  &trans  &trans  &sys_reset
+&sys_reset   &trans  &trans  &studio_unlock  &bt BT_SEL 0  &trans  &trans  &trans  &trans  &sys_reset
 &bootloader  &trans  &trans  &trans          &bt BT_SEL 1  &trans  &trans  &trans  &trans  &bootloader
 &trans       &trans  &trans  &bt BT_CLR      &bt BT_SEL 2  &trans  &trans  &trans  &trans  &trans
                              &trans          &trans                &trans  &trans
-            >;
-        };
-
-        gamingalt_layer {
-            display-name = "Alt Game";
-            bindings = <
-&kp N4  &kp N1  &trans  &kp N2  &kp N3   &kp CARET  &kp AMPS  &kp ASTRK  &kp LPAR  &kp RPAR
-&kp N5  &trans  &trans  &trans  &kp T    &kp N6     &kp N7    &kp N8     &kp N9    &kp N0
-&kp F1  &kp F2  &kp F3  &kp F4  &kp F5   &kp F6     &kp F7    &kp F8     &kp F9    &kp F10
-                        &trans  &kp TAB             &trans    &trans
             >;
         };
     };
