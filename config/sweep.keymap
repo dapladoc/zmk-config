@@ -8,7 +8,8 @@
 #define DEFAULT 0
 #define NUM     1
 #define NAV     2
-#define CFG     3
+#define SYM     3
+#define CFG     4
 
 / {
     behaviors {
@@ -96,7 +97,7 @@
         compatible = "zmk,conditional-layers";
 
         both_layer {
-            if-layers = <NUM NAV>;
+            if-layers = <NUM SYM>;
             then-layer = <CFG>;
         };
     };
@@ -129,7 +130,7 @@
             timeout-ms = <30>;
             key-positions = <23 24>;
             bindings = <&kp LGUI>;
-            layers = <DEFAULT NUM NAV>;
+            layers = <DEFAULT NUM NAV SYM>;
             require-prior-idle-ms = <500>;
         };
 
@@ -144,7 +145,7 @@
             timeout-ms = <30>;
             key-positions = <20 21>;
             bindings = <&kp LSHIFT>;
-            layers = <DEFAULT NUM NAV>;
+            layers = <DEFAULT NUM NAV SYM>;
         };
 
         combo_rshift {
@@ -200,10 +201,10 @@
         default_layer {
             display-name = "Base";
             bindings = <
-&kp Q  &kp W       &kp E         &kp R        &kp T       &kp Y        &kp U        &kp I         &kp O       &kp P
-&kp A  &ht LALT S  &ht LSHIFT D  &ht LCTRL F  &ht LGUI G  &ht RGUI H   &ht RCTRL J  &ht RSHIFT K  &ht RALT L  &kp SQT
-&kp Z  &kp X       &kp C         &kp V        &kp B       &kp N        &kp M        &kp COMMA     &kp DOT     &kp FSLH
-                               &lt NUM TAB  &kp SPACE               &kp BSPC     &lt NAV ENTER
+&kp Q      &kp W       &kp E         &kp R        &kp T       &kp Y        &kp U        &kp I         &kp O       &kp P
+&lt NAV A  &ht LALT S  &ht LSHIFT D  &ht LCTRL F  &ht LGUI G  &ht RGUI H   &ht RCTRL J  &ht RSHIFT K  &ht RALT L  &kp SQT
+&kp Z      &kp X       &kp C         &kp V        &kp B       &kp N        &kp M        &kp COMMA     &kp DOT     &kp FSLH
+                                   &lt NUM TAB  &kp SPACE               &kp BSPC     &lt SYM ENTER
             >;
         };
 
@@ -224,6 +225,16 @@
 &trans  &trans  &trans  &trans  &trans   &kp LEFT   &kp DOWN   &kp UP     &kp RIGHT &trans
 &trans  &trans  &trans  &trans  &trans   &kp HOME   &kp PG_DN  &kp PG_UP  &kp END   &trans
                          &trans  &trans              &trans     &trans
+            >;
+        };
+
+        sym_layer {
+            display-name = "Sym";
+            bindings = <
+&kp UNDER  &kp MINUS  &kp LBRC  &kp LBKT  &kp LPAR   &kp RPAR  &kp RBKT  &kp RBRC  &kp EQUAL  &kp PLUS
+&trans     &kp F11    &kp F12   &kp F13   &kp F14    &kp F15   &kp F16   &kp F17   &kp F18    &kp F19
+&trans     &trans     &trans   &trans     &kp GRAVE  &kp PIPE  &kp BSLH  &kp F20   &trans     &trans
+                                &trans     &trans               &trans    &trans
             >;
         };
 
