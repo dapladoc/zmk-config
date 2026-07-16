@@ -7,8 +7,8 @@
 
 #define DEFAULT 0
 #define NUM     1
-#define NAV     2
-#define SYM     3
+#define SYM     2
+#define NAV     3
 #define CFG     4
 
 / {
@@ -40,19 +40,6 @@
     // Needs an IBus-style unicode input method to be active in the OS to
     // work -- verify once flashed, this doesn't work in every app/DE.
     macros {
-        ru_shch: ru_shch {
-            // щ U+0449
-            compatible = "zmk,behavior-macro";
-            #binding-cells = <0>;
-            bindings
-                = <&macro_press &kp LCTRL &kp LSHIFT>
-                , <&macro_tap &kp U>
-                , <&macro_release &kp LCTRL &kp LSHIFT>
-                , <&macro_tap &kp N0 &kp N4 &kp N4 &kp N9>
-                , <&macro_tap &kp ENTER>
-                ;
-        };
-
         ru_yo: ru_yo {
             // ё U+0451
             compatible = "zmk,behavior-macro";
@@ -107,51 +94,10 @@
 
         combo_esc {
             timeout-ms = <40>;
-            key-positions = <1 2>;
+            key-positions = <0 1>;
             bindings = <&kp ESC>;
             layers = <DEFAULT>;
             require-prior-idle-ms = <250>;
-        };
-
-        combo_del {
-            timeout-ms = <40>;
-            key-positions = <8 9>;
-            bindings = <&kp DEL>;
-            require-prior-idle-ms = <250>;
-        };
-
-        combo_bksp {
-            timeout-ms = <40>;
-            key-positions = <16 17>;
-            bindings = <&kp BSPC>;
-        };
-
-        combo_lwin {
-            timeout-ms = <30>;
-            key-positions = <23 24>;
-            bindings = <&kp LGUI>;
-            layers = <DEFAULT NUM NAV SYM>;
-            require-prior-idle-ms = <500>;
-        };
-
-        combo_rwin {
-            timeout-ms = <30>;
-            key-positions = <25 26>;
-            bindings = <&kp LGUI>;
-            require-prior-idle-ms = <500>;
-        };
-
-        combo_lshift {
-            timeout-ms = <30>;
-            key-positions = <20 21>;
-            bindings = <&kp LSHIFT>;
-            layers = <DEFAULT NUM NAV SYM>;
-        };
-
-        combo_rshift {
-            timeout-ms = <30>;
-            key-positions = <28 29>;
-            bindings = <&kp RSHIFT>;
         };
 
         combo_capsword {
@@ -162,17 +108,9 @@
 
         // Extra Russian letters, typing layer only. Positions are free
         // pairs not used by any other combo above.
-        combo_ru_shch {
-            timeout-ms = <40>;
-            key-positions = <6 7>;
-            bindings = <&ru_shch>;
-            layers = <DEFAULT>;
-            require-prior-idle-ms = <250>;
-        };
-
         combo_ru_yo {
             timeout-ms = <40>;
-            key-positions = <3 4>;
+            key-positions = <20 21>;
             bindings = <&ru_yo>;
             layers = <DEFAULT>;
             require-prior-idle-ms = <250>;
@@ -180,7 +118,7 @@
 
         combo_ru_hard_sign {
             timeout-ms = <40>;
-            key-positions = <12 13>;
+            key-positions = <28 29>;
             bindings = <&ru_hard_sign>;
             layers = <DEFAULT>;
             require-prior-idle-ms = <250>;
@@ -188,7 +126,7 @@
 
         combo_ru_kha {
             timeout-ms = <40>;
-            key-positions = <14 15>;
+            key-positions = <8 9>;
             bindings = <&ru_kha>;
             layers = <DEFAULT>;
             require-prior-idle-ms = <250>;
@@ -218,6 +156,16 @@
             >;
         };
 
+        sym_layer {
+            display-name = "Sym";
+            bindings = <
+&kp F11  &kp F12  &kp F13   &kp F14   &kp F15   &kp F16   &kp F17   &kp F18   &kp F19  &kp F20
+&trans   &trans   &kp LBRC  &kp LBKT  &kp LPAR  &kp RPAR  &kp RBKT  &kp RBRC  &trans   &trans
+&trans   &kp GRAVE &kp BSLH &kp MINUS &kp EQUAL &kp PLUS  &kp UNDER &kp PIPE  &kp TILDE &trans
+                                &trans     &trans               &trans    &trans
+            >;
+        };
+
         nav_layer {
             display-name = "Nav";
             bindings = <
@@ -225,16 +173,6 @@
 &trans  &trans  &trans  &trans  &trans   &kp LEFT   &kp DOWN   &kp UP     &kp RIGHT &trans
 &trans  &trans  &trans  &trans  &trans   &kp HOME   &kp PG_DN  &kp PG_UP  &kp END   &trans
                          &trans  &trans              &trans     &trans
-            >;
-        };
-
-        sym_layer {
-            display-name = "Sym";
-            bindings = <
-&kp UNDER  &kp MINUS  &kp LBRC  &kp LBKT  &kp LPAR   &kp RPAR  &kp RBKT  &kp RBRC  &kp EQUAL  &kp PLUS
-&kp F11    &kp F12    &kp F13   &kp F14   &kp F15    &kp F16   &kp F17   &kp F18   &kp F19    &kp F20
-&trans     &trans     &trans   &trans     &kp GRAVE  &kp PIPE  &kp BSLH  &trans    &trans     &trans
-                                &trans     &trans               &trans    &trans
             >;
         };
 
