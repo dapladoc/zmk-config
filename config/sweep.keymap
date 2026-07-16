@@ -161,7 +161,7 @@
             bindings = <
 &kp F11  &kp F12  &kp F13   &kp F14   &kp F15   &kp F16   &kp F17   &kp F18   &kp F19  &kp F20
 &trans   &kp LT   &kp LBRC  &kp LBKT  &kp LPAR  &kp RPAR  &kp RBKT  &kp RBRC  &kp GT   &trans
-&trans   &kp GRAVE &kp BSLH &kp MINUS &kp EQUAL &kp PLUS  &kp UNDER &kp PIPE  &kp TILDE &trans
+&kp GRAVE &kp BSLH &kp PIPE  &kp EQUAL &kp UNDER  &kp PLUS  &kp MINUS &kp ASTRK &kp FSLH &kp TILDE
                                 &trans     &trans               &trans    &trans
             >;
         };
