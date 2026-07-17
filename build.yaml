@@ -12,16 +12,21 @@
 #     shield: reviung41
 #
 ---
-# Dongle (item/721, ergosplits.ru) is a XIAO-BLE-based dongle running
-# englmaxi/zmk-dongle-display (SSD1306 128x64 OLED) -- confirmed by
-# matching product photos against that project's demo images and case
-# designs. This is a different display module than carrefinho's Prospector
-# (round color LCD) that this config originally assumed; the shield below
-# was switched from `prospector_adapter` to `dongle_display` accordingly,
-# and the actual OLED devicetree node was added to
-# boards/shields/sweep/sweep_central_dongle.overlay (see that file).
+# Dongle (item/721, ergosplits.ru) runs englmaxi/zmk-dongle-display
+# (SSD1306 128x64 OLED). Originally assumed XIAO-BLE-based purely from
+# product photos matching that project's demo images/case designs -- but
+# the physical unit's UF2 bootloader identifies itself as
+# "Board-ID: nRF52840-nicenano" (confirmed 2026-07-17 while flashing:
+# blank OLED + bootloader VID/PID 239a:00b3 "Adafruit nice!nano" turned
+# out to mean the board never actually left bootloader, because
+# board=xiao_ble's devicetree doesn't have an `xiao_i2c` bus that matches
+# real nice!nano hardware -- the display overlay's I2C node was silently
+# inert). Switched to board=nice_nano (matching the peripherals, which
+# were always correctly nice_nano) and the overlay's I2C bus reference
+# updated from `xiao_i2c` to `pro_micro_i2c` accordingly (see
+# boards/shields/sweep/sweep_central_dongle.overlay).
 include:
-  - board: xiao_ble
+  - board: nice_nano
     shield: sweep_central_dongle dongle_display
     artifact-name: sweep_central_dongle
 #    snippet: studio-rpc-usb-uart softdevice-controller
@@ -40,6 +45,3 @@ include:
   - board: nice_nano
     shield: settings_reset
     artifact-name: nicenano_settings_reset
-  - board: xiao_ble
-    shield: settings_reset
-    artifact-name: xiao_settings_reset
