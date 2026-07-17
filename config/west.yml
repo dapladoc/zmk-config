@@ -6,6 +6,8 @@ manifest:
       url-base: https://github.com/kmobs
     - name: englmaxi
       url-base: https://github.com/englmaxi
+    - name: dapladoc
+      url-base: https://github.com/dapladoc
   projects:
     - name: zmk
       remote: zmkfirmware
@@ -17,7 +19,10 @@ manifest:
       revision: main
       import: config/west.yml
     - name: zmk-dongle-display
-      remote: englmaxi
+      remote: dapladoc
+      # Forked from englmaxi/zmk-dongle-display to add our own custom
+      # status-screen widgets (last-key, keystroke-count, activity,
+      # build-info -- see that fork's README/commits).
       # EXPERIMENT (2026-07-16): tracking main again now that zmk core is
       # also on upstream main -- main's zmk_endpoint_get_selected() should
       # match current ZMK's endpoint API. See
