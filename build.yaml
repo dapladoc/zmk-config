@@ -26,15 +26,13 @@
 # updated from `xiao_i2c` to `pro_micro_i2c` accordingly (see
 # boards/shields/sweep/sweep_central_dongle.overlay).
 include:
-  # CONFIG_BT_SUBRATING=n was forced here 2026-07-17 while chasing a
-  # peripheral dropping connection ~1min after going idle. Briefly
-  # re-enabled the same day to test whether it was ever actually the
-  # cause -- re-disabled after that test produced a clean, unambiguous
-  # result: with it on, the peripherals failed to connect to the dongle
-  # AT ALL (not just an idle-drop), even after a full power cycle. A
-  # plain shield .conf override is silently ignored (the
-  # softdevice-controller snippet's own .conf sets it to y with higher
-  # merge precedence), so it has to be forced here as a cmake-arg.
+  # CONFIG_BT_SUBRATING=n on all three: the softdevice-controller snippet's
+  # own .conf sets it to y with higher merge precedence than shield-level
+  # .conf files, so disabling it needs to happen via cmake-args here (a
+  # plain shield .conf override is silently ignored). Testing/disabling
+  # the snippet's 3-tier subrating scheme (ACTIVE -> IDLE ~30s -> DORMANT
+  # +5min) as the suspected cause of a peripheral dropping connection
+  # shortly after going idle (observed on real hardware 2026-07-17).
   - board: nice_nano
     shield: sweep_central_dongle dongle_display
     artifact-name: sweep_central_dongle
