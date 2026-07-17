@@ -6,6 +6,8 @@ manifest:
       url-base: https://github.com/kmobs
     - name: englmaxi
       url-base: https://github.com/englmaxi
+    - name: dapladoc
+      url-base: https://github.com/dapladoc
   projects:
  #   - name: zmk
  #     remote: zmkfirmware
@@ -21,8 +23,11 @@ manifest:
       revision: main
       import: config/west.yml
     - name: zmk-dongle-display
-      remote: englmaxi
-      # Pinned to commit 9f0f0bf, not v0.3 or main:
+      remote: dapladoc
+      # Forked from englmaxi/zmk-dongle-display to add our own custom
+      # status-screen widgets (last-key, keystroke-count, activity,
+      # build-info -- see that fork's README/commits). Base commit is
+      # still 9f0f0bf, not v0.3 or main:
       # - v0.3 predates the LVGL v9 API migration (44b11bb, "add zephyr 4.1
       #   changes") that this repo's Zephyr v4.1 / newer LVGL needs
       #   (LV_IMG_CF_* enum removed, lv_canvas_set_px signature changed,
@@ -33,7 +38,8 @@ manifest:
       #   checkout) does NOT have -- it still exposes the pre-rename
       #   zmk_endpoints_selected().
       # 9f0f0bf sits between the two: has the LVGL v9 fixes, not yet the
-      # endpoint rename.
-      revision: 9f0f0bf
+      # endpoint rename. Our custom-widgets commit is cherry-picked onto a
+      # "pinned-9f0f0bf" branch in the fork to preserve that property.
+      revision: pinned-9f0f0bf
   self:
     path: config
