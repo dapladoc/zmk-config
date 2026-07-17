@@ -27,27 +27,28 @@
 # boards/shields/sweep/sweep_central_dongle.overlay).
 include:
   # CONFIG_BT_SUBRATING=n was forced here 2026-07-17 while chasing a
-  # peripheral dropping connection ~1min after going idle; re-enabled
-  # 2026-07-17 to test whether it was ever actually the cause (that test
-  # got confounded by other issues happening in parallel -- a BLE bond
-  # reset, then separately discovering the real typing bug, missing
-  # CONFIG_ZMK_USB). If the drop recurs, re-add `-DCONFIG_BT_SUBRATING=n`
-  # to each cmake-args below (a plain shield .conf override is silently
-  # ignored -- the softdevice-controller snippet's own .conf sets it to y
-  # with higher merge precedence, so it must go here as a cmake-arg).
+  # peripheral dropping connection ~1min after going idle. Briefly
+  # re-enabled the same day to test whether it was ever actually the
+  # cause -- re-disabled after that test produced a clean, unambiguous
+  # result: with it on, the peripherals failed to connect to the dongle
+  # AT ALL (not just an idle-drop), even after a full power cycle. A
+  # plain shield .conf override is silently ignored (the
+  # softdevice-controller snippet's own .conf sets it to y with higher
+  # merge precedence), so it has to be forced here as a cmake-arg.
   - board: nice_nano
     shield: sweep_central_dongle dongle_display
     artifact-name: sweep_central_dongle
 #    snippet: studio-rpc-usb-uart softdevice-controller
     snippet: softdevice-controller
+    cmake-args: -DCONFIG_BT_SUBRATING=n
   - board: nice_nano
     shield: sweep_peripheral_left
-    cmake-args: -DCONFIG_ZMK_SPLIT=y -DCONFIG_ZMK_SPLIT_ROLE_CENTRAL=n
+    cmake-args: -DCONFIG_ZMK_SPLIT=y -DCONFIG_ZMK_SPLIT_ROLE_CENTRAL=n -DCONFIG_BT_SUBRATING=n
     snippet: softdevice-controller
     artifact-name: sweep_peripheral_left
   - board: nice_nano
     shield: sweep_peripheral_right
-    cmake-args: -DCONFIG_ZMK_SPLIT=y -DCONFIG_ZMK_SPLIT_ROLE_CENTRAL=n
+    cmake-args: -DCONFIG_ZMK_SPLIT=y -DCONFIG_ZMK_SPLIT_ROLE_CENTRAL=n -DCONFIG_BT_SUBRATING=n
     snippet: softdevice-controller
     artifact-name: sweep_peripheral_right
   - board: nice_nano
