@@ -31,8 +31,9 @@
 
 // OLED for the item/721 dongle-with-display (englmaxi/zmk-dongle-display),
 // settings mirrored from englmaxi/zmk-config's sweep_dongle.overlay (default
-// 1.3" SSD1306 128x64 @ 0x3c on the XIAO's I2C bus).
-&xiao_i2c {
+// 1.3" SSD1306 128x64 @ 0x3c). Physical board turned out to be nice!nano,
+// not XIAO BLE (see build.yaml) -- I2C bus is pro_micro_i2c accordingly.
+&pro_micro_i2c {
     status = "okay";
 
     oled: ssd1306@3c {
